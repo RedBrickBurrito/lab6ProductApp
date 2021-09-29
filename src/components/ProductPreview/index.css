@@ -1,0 +1,43 @@
+.productPreview {
+    margin: 10px;
+    padding: 10px;
+}
+
+img.mediumImage {
+    width: 500px !important;
+    height: 500px !important;   
+}
+
+div.mediumImage {
+    box-shadow: none;
+    background-color: #fafafa;
+}
+
+.productLabel{
+    color: #fafafa !important;
+    font-weight: bold !important;
+}
+
+.addCartButton{
+    background-color: #ED254E !important;
+    color: #fafafa !important;
+}
+
+.productName {
+    color: #C2EABD;
+    font-size: 3em !important;
+}
+
+.productGrid {
+    color: #fafafa !important;
+    flex-grow: 1;
+}
+
+.dollars:before {
+    content:'$'; 
+}
+
+.crossedout {
+    color: #ED254E;
+    text-decoration: line-through
+}

@@ -1,39 +1,78 @@
 import "./index.css";
+import Product from "../../types/Product";
 import { Grid, Paper, Typography, Select, MenuItem, InputLabel, Button } from "@material-ui/core";
 
+
+interface ProductInfoProps {
+    product: Product;
+}
 /**
  * Product info elements
  * @returns ProductInfo UI elements
  */
-const ProductInfo = () => {
+const ProductInfo: React.FC<ProductInfoProps> = (props) => {
+    var listPrice = 0.00;
+
+    if (props.product !== undefined && props.product.childSkus !== undefined && props.product.childSkus[0] !== undefined) {
+        listPrice = props.product.childSkus[0].listPrice;
+    } var salePrice = 0.00;
+    if (props.product !== undefined && props.product.childSkus !== undefined && props.product.childSkus[0] !== undefined) {
+        salePrice = props.product.childSkus[0].salePrice;
+    }
+
+    var colors: any[] = [];
+    var sizes: any[] = [];
+    var selectedColor = "";
+    var selectedSize = "";
+
+    if (props.product !== undefined && props.product.childSkus !== undefined) {
+        selectedColor = props.product.childSkus[0].color;
+        props.product.childSkus.forEach((sku) => {
+            colors.push(<MenuItem value={sku.color}>{sku.color}</MenuItem>);
+        });
+        selectedSize = props.product.childSkus[0].size;
+        props.product.childSkus.forEach((sku) => {
+            sizes.push(<MenuItem value={sku.size}>{sku.size}</MenuItem>);
+        });
+    }
+
+    var largeImageUrl = "";
+    if (
+        props.product !== undefined &&
+        props.product.childSkus !== undefined &&
+        props.product.childSkus[0] !== undefined
+    ) {
+        largeImageUrl = props.product.childSkus[0].largeImageUrl;
+    }
+
     return (
         <div className="productInfo">
             <Grid container className="productGrid" spacing={2}>
                 <Grid item lg={4}>
                     <Paper className="largeImage" >
-                        <img src="https://dummyimage.com/500x500/000/0011ff" alt="Levi's 501 Original Fit Jeans Jeans para Hombre" />
+                        <img src={largeImageUrl} alt={props.product.name} />
                     </Paper>
                 </Grid>
                 <Grid item lg={8} container>
 
                     <Grid item lg={12}>
                         <Typography className="productName" variant="h1">
-                            Levi's 501 Original Fit Jeans Jeans para Hombre
+                            {props.product.name}
                         </Typography>
                     </Grid>
                     <Grid item lg={12}>
                         <Typography>
-                            100% algodón, Cierre de Cremallera, Lavar a máquina, Jeans corte ajustado, Pierna ajustada, Stretch especial que te brinda mayor movilidad
+                            {props.product.description}
                         </Typography>
                     </Grid>
                     <Grid item lg={2}>
                         <Typography className="dollars crossedout">
-                            1027.24
+                            {listPrice}
                         </Typography>
                     </Grid>
                     <Grid item lg={2}>
                         <Typography className="dollars">
-                            706.93
+                            {salePrice}
                         </Typography>
                     </Grid>
                     <Grid item lg={8} />
@@ -43,11 +82,10 @@ const ProductInfo = () => {
                             className="selectLabel"
                             labelId="color-label"
                             id="color-select"
-                            label="color"
+                            label="Color"
+                            value={selectedColor}
                         >
-                            <MenuItem value="BLK">Black</MenuItem>
-                            <MenuItem value="BLU">Blue</MenuItem>
-                            <MenuItem value="BWN">Brown</MenuItem>
+                            {colors}
                         </Select>
                     </Grid>
                     <Grid item lg={2}>
@@ -57,12 +95,9 @@ const ProductInfo = () => {
                             labelId="size-label"
                             id="size-select"
                             label="Size"
+                            value={selectedSize}
                         >
-                            <MenuItem value="30x32">30x32</MenuItem>
-                            <MenuItem value="33x30">33x30</MenuItem>
-                            <MenuItem value="32x32">32x32</MenuItem>
-                            <MenuItem value="34x32">34x32</MenuItem>
-                            <MenuItem value="36x32">36x32</MenuItem>
+                            {sizes}
                         </Select>
                     </Grid>
                     <Grid item lg={8} />
